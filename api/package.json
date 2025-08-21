@@ -1,1 +1,11 @@
-test
+{
+"name": "sample-api",
+"version": "1.0.0",
+"main": "index.js",
+"type": "commonjs",
+"scripts": { "start": "node index.js" },
+"dependencies": {
+"express": "^4.19.2",
+"express-basic-auth": "^1.2.1"
+}
+}
