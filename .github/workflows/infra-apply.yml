@@ -1,0 +1,30 @@
+name: terraform-apply
+on:
+workflow_dispatch:
+
+
+env:
+AWS_REGION: us-east-1
+
+
+jobs:
+apply:
+runs-on: ubuntu-latest
+permissions:
+id-token: write
+contents: read
+defaults:
+run:
+working-directory: infra
+steps:
+- uses: actions/checkout@v4
+- uses: aws-actions/configure-aws-credentials@v4
+with:
+role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+aws-region: ${{ env.AWS_REGION }}
+- uses: hashicorp/setup-terraform@v3
+- run: terraform init
+- run: terraform apply -auto-approve \
+-var "region=${{ env.AWS_REGION }}" \
+-var "certificate_arn=${{ secrets.ACM_CERT_ARN }}" \
+-var "db_password=${{ secrets.DB_PASSWORD }}"
