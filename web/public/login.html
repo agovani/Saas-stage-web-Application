@@ -125,13 +125,26 @@
     </div>
   </div>
 
-  <script>
-    document.getElementById("loginForm").addEventListener("submit", function (e) {
-      e.preventDefault();
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      alert("Logging in with:\nEmail: " + email + "\nPassword: " + password);
-    });
-  </script>
+<script>
+  document.getElementById("loginForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+
+    // Hardcoded valid credentials
+    const validEmail = "admin@example.com";
+    const validPassword = "changeme123";
+
+    if (email === validEmail && password === validPassword) {
+      // ✅ Success: go to dashboard
+      window.location.href = "dashboard.html";
+    } else {
+      // ❌ Failure: show error
+      alert("Login failed: wrong username or password.");
+    }
+  });
+</script>
+
 </body>
 </html>
