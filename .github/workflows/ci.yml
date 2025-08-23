@@ -12,7 +12,7 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_REGION: us-east-1
-      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+      AWS_ACCOUNT_ID: ${{ env.AWS_ACCOUNT_ID }}
       IMAGE_TAG: ${{ github.sha }}
 
     steps:
@@ -32,16 +32,16 @@ jobs:
       - name: Build Docker image
         run: |
           cd web
-          docker build -t ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.$AWS_REGION.amazonaws.com/saas-stage-web-application:$IMAGE_TAG .
+          docker build -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/saas-stage-web-application:$IMAGE_TAG .
 
       - name: Tag Docker image
         run: |
-          docker tag ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.$AWS_REGION.amazonaws.com/saas-stage-web-application:$IMAGE_TAG \
-            ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.$AWS_REGION.amazonaws.com/saas-stage-web-application:${{ github.sha }}
-          docker tag ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.$AWS_REGION.amazonaws.com/saas-stage-web-application:$IMAGE_TAG \
-            ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.$AWS_REGION.amazonaws.com/saas-stage-web-application:latest
+          docker tag $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/saas-stage-web-application:$IMAGE_TAG \
+            $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/saas-stage-web-application:${{ github.sha }}
+          docker tag $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/saas-stage-web-application:$IMAGE_TAG \
+            $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/saas-stage-web-application:latest
 
       - name: Push Docker images
         run: |
-          docker push ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.$AWS_REGION.amazonaws.com/saas-stage-web-application:${{ github.sha }}
-          docker push ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.$AWS_REGION.amazonaws.com/saas-stage-web-application:latest
+          docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/saas-stage-web-application:${{ github.sha }}
+          docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/saas-stage-web-application:latest
