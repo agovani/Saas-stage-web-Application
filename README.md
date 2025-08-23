@@ -74,6 +74,7 @@ Saas-Escalation-Engineer-Real-work-Challange
   - An **ECR repo** created (`saas-stage-web-application`).
   - An **EC2 instance** with Docker installed and configured as a **self-hosted GitHub Actions runner**.
   - Runner must have IAM credentials (via instance profile or GitHub secrets).
+  - pre-config.sh.tpl would have all the neccessary. 
 
 ### Step 2 – Configure GitHub Secrets
 In your GitHub repo → **Settings → Secrets and variables → Actions**, add:
