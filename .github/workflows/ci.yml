@@ -27,10 +27,10 @@ jobs:
       - name: Login to Amazon ECR
         run: |
           aws ecr get-login-password --region $AWS_REGION \
-            | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+            | docker login --username AWS --password-stdin 606010181709.dkr.ecr.us-east-1.amazonaws.com/saas-stage-web-application
 
       - name: Build Docker image
-        run: docker build -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/saas-stage-web-application:$IMAGE_TAG .
+        run: docker build -t 606010181709.dkr.ecr.us-east-1.amazonaws.com/saas-stage-web-application:$IMAGE_TAG .
 
       - name: Push Docker image to ECR
-        run: docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/saas-stage-web-application:$IMAGE_TAG
+        run: docker push 606010181709.dkr.ecr.us-east-1.amazonaws.com/saas-stage-web-application:$IMAGE_TAG
