@@ -1,0 +1,36 @@
+name: Deploy to EC2
+
+on:
+  workflow_run:
+    workflows: ["Deploy to AWS (CDK)"]
+    types:
+      - completed
+
+jobs:
+
+    build:
+
+      runs-on: self-hosted
+
+      steps:
+      - name: Pull Docker image
+        run: sudo docker pull 606010181709.dkr.ecr.us-east-1.amazonaws.com/saas-stage-web-application:latest
+      - name: Stop and remove old container
+        run: |
+          sudo docker stop saas-stage-web-application || true
+          sudo docker rm saas-stage-web-application || true
+
+      - name: Run New docker container
+        run: |
+          sudo docker run -d --rm --name saas-stage-web-application -p 80:80 \
+            -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
+            -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
+            -e AWS_REGION=us-east-1 \
+            $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/saas-stage-web-application:latest
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-1
+         
+
+     
