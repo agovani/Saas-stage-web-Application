@@ -1,4 +1,4 @@
-name: Deploy to AWS (CDK)
+name: Deploy to EC2
 
 on:
   workflow_run:
