@@ -30,7 +30,9 @@ jobs:
             | docker login --username AWS --password-stdin 606010181709.dkr.ecr.us-east-1.amazonaws.com/saas-stage-web-application
 
       - name: Build Docker image
-        run: docker build -t 606010181709.dkr.ecr.us-east-1.amazonaws.com/saas-stage-web-application:$IMAGE_TAG .
+        run: |
+          cd web
+          docker build -t 606010181709.dkr.ecr.us-east-1.amazonaws.com/saas-stage-web-application:$IMAGE_TAG .
 
       - name: Push Docker image to ECR
         run: docker push 606010181709.dkr.ecr.us-east-1.amazonaws.com/saas-stage-web-application:$IMAGE_TAG
