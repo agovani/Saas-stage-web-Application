@@ -59,6 +59,7 @@ Saas-Escalation-Engineer-Real-work-Challange
 
 11. **Certificate Management**
     - **ACM Certificate**: Used for HTTPS on ALB.
+    - **Certificate-key file**:the certificate key file has been removed from the repo for security reasons.
 
 ---
 
@@ -74,7 +75,7 @@ Saas-Escalation-Engineer-Real-work-Challange
   - An **ECR repo** created (`saas-stage-web-application`).
   - An **EC2 instance** with Docker installed and configured as a **self-hosted GitHub Actions runner**.
   - Runner must have IAM credentials (via instance profile or GitHub secrets).
-  - pre-config.sh.tpl would have all the neccessary. 
+  - pre-config.sh.tpl would have all the neccessary commands.(GIT Runners require manual activation for the first time.) 
 
 ### Step 2 – Configure GitHub Secrets
 In your GitHub repo → **Settings → Secrets and variables → Actions**, add:
