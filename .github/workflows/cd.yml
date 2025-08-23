@@ -7,19 +7,24 @@ on:
       - completed
 
 jobs:
+  build:
+    runs-on: self-hosted
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: us-east-1
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+      IMAGE_TAG: ${{ github.sha }}
 
-    build:
-
-      runs-on: self-hosted
-
-      steps:
+    steps:
       - name: Login to Amazon ECR
         run: |
-          aws ecr get-login-password --region us-east-1 \
-            | sudo docker login --username AWS --password-stdin 606010181709.dkr.ecr.us-east-1.amazonaws.com
+          aws ecr get-login-password --region $AWS_REGION \
+            | sudo docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
 
       - name: Pull Docker image
-        run: sudo docker pull 606010181709.dkr.ecr.us-east-1.amazonaws.com/saas-stage-web-application:latest
+        run: sudo docker pull $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/saas-stage-web-application:latest
+
       - name: Stop and remove old container
         run: |
           sudo docker stop saas-stage-web-application || true
@@ -28,16 +33,7 @@ jobs:
       - name: Run New docker container
         run: |
           sudo docker run -d --rm --name saas-stage-web-application -p 80:80 \
-            -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
-            -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
-            -e AWS_REGION=us-east-1 \
-            $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/saas-stage-web-application:latest
-      env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_REGION: us-east-1
-      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-      IMAGE_TAG: ${{ github.sha }}
-         
-
-     
+            -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
+            -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
+            -e AWS_REGION=$AWS_REGION \
+            $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/saas-stage-web-application:latest
