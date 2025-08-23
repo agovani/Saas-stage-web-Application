@@ -25,7 +25,9 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies
-        run: npm install
+        run: |  
+          cd web
+          npm install
 
       - name: Login to Amazon ECR
         run: |
