@@ -102,6 +102,7 @@ SSH into your EC2:
 ```bash
 ssh -i your-key.pem ubuntu@<EC2_PUBLIC_IP>
 docker ps
+```
 You should see your container running with ports exposed (`80:80`).
 
 ---
