@@ -24,11 +24,6 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install dependencies
-        run: |  
-          cd web
-          npm install
-
       - name: Login to Amazon ECR
         run: |
           aws ecr get-login-password --region $AWS_REGION \
