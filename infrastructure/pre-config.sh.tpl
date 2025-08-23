@@ -104,7 +104,7 @@ echo "01066fad3a2893e63e6ca880ae3a1fad5bf9329d60e77ee15f2b97c148c3cd4e  actions-
 # Extract the installer
 tar xzf ./actions-runner-linux-x64-2.328.0.tar.gz
 # Create the runner and start the configuration experience
-./config.sh --url https://github.com/agovani/Saas-stage-web-Application --token BIADI4O6QEW7BJXHKG7LH2TIVE3CG
+./config.sh --url https://github.com/agovani/Saas-stage-web-Application --token <token>
 # Last step, run it!
 ./run.sh &
 
