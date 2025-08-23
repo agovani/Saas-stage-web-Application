@@ -13,6 +13,11 @@ jobs:
       runs-on: self-hosted
 
       steps:
+      - name: Login to Amazon ECR
+        run: |
+          aws ecr get-login-password --region us-east-1 \
+            | sudo docker login --username AWS --password-stdin 606010181709.dkr.ecr.us-east-1.amazonaws.com
+
       - name: Pull Docker image
         run: sudo docker pull 606010181709.dkr.ecr.us-east-1.amazonaws.com/saas-stage-web-application:latest
       - name: Stop and remove old container
