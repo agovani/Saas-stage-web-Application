@@ -1,0 +1,33 @@
+name: Deploy to AWS (CDK)
+
+on:
+  workflow_run:
+    workflows: ["Deploy to AWS (CDK)"]
+    types:
+      - completed
+
+jobs:
+
+    build:
+
+      runs-on: self-hosted
+
+      steps:
+      - name: Pull Docker image
+        run: sudo docker pull 606010181709.dkr.ecr.us-east-1.amazonaws.com/saas-stage-web-application:latest
+      - name: Delete Old docker container
+        run: |
+          if [ $(sudo docker ps -a -q --filter ancestor=606010181709.dkr.ecr.us-east-1.amazonaws.com/saas-stage-web-application:latest | wc -l) -gt 0 ]; then
+            sudo docker rm -f $(sudo docker ps -a -q --filter ancestor=606010181709.dkr.ecr.us-east-1.amazonaws.com/saas-stage-web-application:latest)
+          fi
+      - name: Run New docker container
+        run: |
+          sudo docker run -d --rm --name saas-stage-web-application \
+            -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
+            -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
+            -e AWS_REGION=us-east-1 \
+            606010181709.dkr.ecr.us-east-1.amazonaws.com/saas-stage-web-application:latest
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-1
