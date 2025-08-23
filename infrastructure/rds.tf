@@ -4,14 +4,13 @@ resource "aws_db_subnet_group" "db" {
 }
 
 resource "aws_db_instance" "pg" {
-  identifier             = "${var.db}-pg"
+  identifier             = "${lower(replace(var.project, "_", "-"))}-pg"
   engine                 = "postgres"
-  engine_version         = "16"
   instance_class         = "db.t3.micro"
-  username               = var.db_username
-  password               = var.db_password
-  db_name                = var.db_name
   allocated_storage      = 20
+  username               = var.db_username
+  password               = var.db_password # Ensure this variable does not contain /, @, ", or spaces
+  db_name                = "appdb"
   skip_final_snapshot    = true
   publicly_accessible    = false
   vpc_security_group_ids = [aws_security_group.db.id]

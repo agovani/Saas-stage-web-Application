@@ -1,8 +1,8 @@
 resource "aws_s3_bucket" "app_files" {
-  bucket = "${var.project}-files"
+  bucket = "${lower(replace(var.project, "_", "-"))}-files"
 
   tags = {
-    Name        = "${var.project}-files"
+    Name        = "${lower(replace(var.project, "_", "-"))}-files"
     Environment = "dev"
   }
 }

@@ -64,8 +64,7 @@ Saas-Escalation-Engineer-Real-work-Challange
 
 ## Diagram
 
-![alt text](Sparkrock-diagram.svg)
-
+![alt text](docs/Sparkrock-diagram.svg)
 ---
 
 ## 🚀 Deployment Instructions
