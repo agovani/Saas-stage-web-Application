@@ -45,3 +45,16 @@ jobs:
         run: |
           docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/saas-stage-web-application:${{ github.sha }}
           docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/saas-stage-web-application:latest
+      
+      - name: Stop and remove old container
+        run: |
+          docker stop saas-stage-web-application || true
+          docker rm saas-stage-web-application || true
+
+      - name: Run New docker container
+        run: |
+          sudo docker run -d --rm --name saas-stage-web-application \
+            -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
+            -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
+            -e AWS_REGION=us-east-1 \
+            $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/saas-stage-web-application:latest
